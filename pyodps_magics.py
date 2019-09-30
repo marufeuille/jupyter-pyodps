@@ -25,10 +25,11 @@ class PyOdpsMagic(Magics):
         return result
 
 def load_ipython_extension(ipython):
-    access = os.environ['AccessKeyId'] if 'AccessKeyId' in os.environ else ""
-    secret = os.environ['SecretAccessKey'] if 'SecretAccessKey' in os.environ else ""
-    project = os.environ['Project'] if 'Project' in os.environ else ""
-    endpoint = os.environ['Endpoint'] if 'Endpoint' in os.environ else ""
-    myodps = ODPS(access, secret, project, endpoint=endpoint)
+    params = {}
+    with open("/home/jovyan/.aliyun_profile") as f:
+        for item in f.read().strip().split("\n"):
+            key, param = item.split("=",1)
+            params[key] = param
+    myodps = ODPS(params["AccessKeyId"], params['AccessKeySecret'], params['Project'], endpoint=params['Endpoint'])
     magic = PyOdpsMagic(ipython, myodps)
     ipython.register_magics(magic)
