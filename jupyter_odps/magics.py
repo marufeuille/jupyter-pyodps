@@ -16,12 +16,17 @@ class ODPSMagic(Magics):
     def odps(self, line, cell):
         sql = StringIO(cell).getvalue()
 
-        result = []
-        
         column = []
         fields = []
 
-        with self.odps.execute_sql(sql).open_reader() as reader:
+        instance = self.odps.execute_sql(sql)
+        if sql[0:4].upper() == "DROP" or sql[0:6].upper() == "CREATE":
+            if instance.is_successful():
+                return "successfully finished {}".format(sql) 
+            else:
+                return "Error Occured {}".format(sql)
+            
+        with instance.open_reader() as reader:
             if sql[0:4].upper() == "DESC":
                 field_flag = False
                 idx = 1
@@ -47,7 +52,7 @@ class ODPSMagic(Magics):
                                 column.append(x[0].strip())
                                 fields.append(x[1].strip() if len(x) == 2 else "")
                 return pd.DataFrame([fields], columns=column)
-            else:
+            else: # SELECT
                 for record in reader:
                     c = []
                     f = []
