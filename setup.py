@@ -20,7 +20,7 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='odps-jupyter',
+    name='jupyter-odps',
     version='0.0.1',
     description='Package for Jupyter using odps with magic command.',
     long_description=readme,
