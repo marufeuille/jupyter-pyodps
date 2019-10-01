@@ -1,10 +1,5 @@
 import os, sys
 from setuptools import setup, find_packages
-from odps import ODPS
-
-from magic.odps import OdpsMagic
-
-__version__ = '0.0.1'
 
 def read_requirements():
     """Parse requirements from requirements.txt."""
@@ -29,6 +24,6 @@ setup(
     install_requires=read_requirements(),
     url='https://github.com/marufeuikke/jupyter-pyodps',
     license=license,
-    packages = ['magic'],
-    py_modules = ['magic']
+    packages = ['jupyter_odps'],
+    py_modules = ['jupyter_odps']
 )

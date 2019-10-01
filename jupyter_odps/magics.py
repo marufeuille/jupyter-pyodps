@@ -2,11 +2,13 @@ from IPython.core.magic import (Magics, magics_class, line_magic, cell_magic)
 from IPython.core.magic import (register_line_magic, register_cell_magic)
 from io import StringIO
 
+from odps import ODPS
+
 @magics_class
-class OdpsMagic(Magics):
+class ODPSMagic(Magics):
     
     def __init__(self, shell, odps):
-        super(PyOdpsMagic, self).__init__(shell)
+        super(ODPSMagic, self).__init__(shell)
         self.odps = odps
 
     @cell_magic
@@ -18,7 +20,7 @@ class OdpsMagic(Magics):
             for record in reader:
                 result.append(record)
         return result
-
+    
 def load_ipython_extension(ipython):
     params = {}
     with open("/home/jovyan/.aliyun_profile") as f:
@@ -26,5 +28,5 @@ def load_ipython_extension(ipython):
             key, param = item.split("=",1)
             params[key] = param
     myodps = ODPS(params["AccessKeyId"], params['AccessKeySecret'], params['Project'], endpoint=params['Endpoint'])
-    magic = OdpsMagic(ipython, myodps)
+    magic = ODPSMagic(ipython, myodps)
     ipython.register_magics(magic)
