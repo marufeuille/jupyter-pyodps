@@ -29,15 +29,6 @@ setup(
     install_requires=read_requirements(),
     url='https://github.com/marufeuikke/jupyter-pyodps',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages = ['magic'],
+    py_modules = ['magic']
 )
-
-def load_ipython_extension(ipython):
-    params = {}
-    with open("/home/jovyan/.aliyun_profile") as f:
-        for item in f.read().strip().split("\n"):
-            key, param = item.split("=",1)
-            params[key] = param
-    myodps = ODPS(params["AccessKeyId"], params['AccessKeySecret'], params['Project'], endpoint=params['Endpoint'])
-    magic = OdpsMagic(ipython, myodps)
-    ipython.register_magics(magic)
