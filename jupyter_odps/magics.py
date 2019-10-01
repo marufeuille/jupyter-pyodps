@@ -22,9 +22,9 @@ class ODPSMagic(Magics):
         instance = self.odps.execute_sql(sql)
         if sql[0:4].upper() == "DROP" or sql[0:6].upper() == "CREATE":
             if instance.is_successful():
-                return "successfully finished {}".format(sql) 
+                return "successfully finished {}".format(sql.strip())
             else:
-                return "Error Occured {}".format(sql)
+                return "Error Occured {}".format(sql.strip())
             
         with instance.open_reader() as reader:
             if sql[0:4].upper() == "DESC":
