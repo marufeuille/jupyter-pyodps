@@ -15,14 +15,14 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='jupyter-odps',
+    name='jupyterodps',
     version='0.0.1',
     description='Package for Jupyter using odps with magic command.',
     long_description=readme,
     author='Masahiro Ishii',
     author_email='marufeuille@gmail.com',
     install_requires=read_requirements(),
-    url='https://github.com/marufeuikke/jupyter-pyodps',
+    url='https://github.com/marufeuille/jupyter-pyodps',
     license=license,
     packages = ['jupyter_odps'],
     py_modules = ['jupyter_odps']
