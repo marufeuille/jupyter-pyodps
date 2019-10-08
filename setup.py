@@ -24,6 +24,6 @@ setup(
     install_requires=read_requirements(),
     url='https://github.com/marufeuille/jupyter-pyodps',
     license=license,
-    packages = ['jupyter_odps'],
-    py_modules = ['jupyter_odps']
+    packages = ['.'],
+    py_modules = ['.']
 )
