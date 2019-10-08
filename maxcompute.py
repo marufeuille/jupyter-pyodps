@@ -1,6 +1,7 @@
 from IPython.core.magic import (Magics, magics_class, line_magic, cell_magic)
 from IPython.core.magic import (register_line_magic, register_cell_magic)
 from io import StringIO
+import os
 
 from odps import ODPS
 import pandas as pd
@@ -67,10 +68,19 @@ class ODPSMagic(Magics):
     
 def load_ipython_extension(ipython):
     params = {}
-    with open("/home/jovyan/.aliyun_profile") as f:
-        for item in f.read().strip().split("\n"):
-            key, param = item.split("=",1)
-            params[key] = param
+    for key in ("AccessKeyId", "AccessKeySecret", "Project", "Endpoint"):
+        val = os.getenv(key)
+        if val:
+            params[key] = val
+    path = os.path.expanduser("~") + "/.aliyun_profile"
+    if os.path.exists(path):
+        with open(path) as f:
+            for item in f.read().strip().split("\n"):
+                key, param = item.split("=",1)
+                params[key] = param
+    elif len(params.keys()) != 4:
+        raise ValueError("Not Set enough param")
+
     myodps = ODPS(params["AccessKeyId"], params['AccessKeySecret'], params['Project'], endpoint=params['Endpoint'])
     magic = ODPSMagic(ipython, myodps)
     ipython.register_magics(magic)
