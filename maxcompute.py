@@ -21,7 +21,7 @@ class ODPSMagic(Magics):
         fields = []
 
         instance = self.odps.execute_sql(sql)
-        if sql[0:4].upper() == "DROP" or sql[0:6].upper() == "CREATE" or sql[0:6] == "INSERT":
+        if sql[0:4].upper() == "DROP" or sql[0:6].upper() == "CREATE" or sql[0:6].upper() == "INSERT":
             if instance.is_successful():
                 return "successfully finished {}".format(sql.strip())
             else:
